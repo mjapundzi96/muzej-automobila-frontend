@@ -17,6 +17,11 @@ export const routes: Routes = [
   },
   {
     path: 'auth',
+    loadChildren: () => import('./auth/auth.module')
+      .then(m => m.AuthModule),
+  },
+  /* {
+    path: 'auth',
     component: NbAuthComponent,
     children: [
       {
@@ -44,7 +49,7 @@ export const routes: Routes = [
         component: NbResetPasswordComponent,
       },
     ],
-  },
+  }, */
   { path: '', redirectTo: 'pages', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },
 ];

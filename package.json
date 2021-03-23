@@ -1,14 +1,6 @@
 {
-  "name": "ngx-admin",
+  "name": "muzej-automobila",
   "version": "7.0.0",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/akveo/ngx-admin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/akveo/ngx-admin/issues"
-  },
   "scripts": {
     "ng": "ng",
     "conventional-changelog": "conventional-changelog",
@@ -47,6 +39,7 @@
     "@nebular/security": "7.0.0",
     "@nebular/theme": "7.0.0",
     "@swimlane/ngx-charts": "^14.0.0",
+    "@swimlane/ngx-datatable": "^19.0.0",
     "angular2-chartjs": "0.4.1",
     "bootstrap": "4.3.1",
     "chart.js": "2.7.1",
@@ -61,6 +54,7 @@
     "nebular-icons": "1.1.0",
     "ng2-ckeditor": "^1.2.9",
     "ng2-smart-table": "^1.6.0",
+    "ngx-awesome-uploader": "^10.0.4",
     "ngx-echarts": "^4.2.2",
     "node-sass": "^4.12.0",
     "normalize.css": "6.0.0",
