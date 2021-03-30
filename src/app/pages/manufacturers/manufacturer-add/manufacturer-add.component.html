@@ -1,0 +1,41 @@
+<ngx-breadcrumbs [items]="breadcrumbs">
+</ngx-breadcrumbs>
+<nb-card>
+  <nb-card-header>
+    <h3>Dodavanje prozvođača</h3>
+  </nb-card-header>
+  <nb-card-body>
+    <form class="col-sm-6 col-12 px-0">
+      <div class="form-group">
+        <label for="name">Naziv</label><br>
+        <input fullWidth id="name" type="text" nbInput>
+      </div>
+      <div class="form-group">
+        <label for="country">Zemlja podrijetla</label><br>
+        <input fullWidth id="country" type="text" nbInput>
+      </div>
+      <div class="form-group">
+        <label for="address">Adresa sjedišta</label><br>
+        <input fullWidth id="Address" type="text" nbInput>
+      </div>
+      <div class="form-group">
+        <label for="establishment_date">Datum osnutka</label><br>
+        <input fullWidth id="establishment_date" type="text" nbInput>
+      </div>
+      <div class="form-group">
+        <label>Logo proizvođača</label><br>
+        <ngx-awesome-uploader>
+          <div class="dropzoneTemplate">
+            <div>
+              Povuci fotografiju ovdje ili klikni za odabir
+            </div>
+          </div>
+        </ngx-awesome-uploader>
+      </div>
+      <div class="form-group">
+        <button class="mr-2" nbButton size="medium" status="success">Dodaj</button>
+        <button nbButton siz="medium" status="danger">Odustani</button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

@@ -23,10 +23,10 @@ export class CarAddComponent implements OnInit {
   ]
   constructor() { }
 
-  manufacturerOptions: string[];
+  ownerOptions: string[];
 
   ngOnInit() {
-    this.manufacturerOptions = ['Audi', 'Mercedes', 'BMW'];
+    this.ownerOptions = ['Audi', 'Mercedes', 'BMW'];
 
   }
 

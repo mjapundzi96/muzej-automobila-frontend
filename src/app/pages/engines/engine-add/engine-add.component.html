@@ -1,0 +1,34 @@
+<ngx-breadcrumbs [items]="breadcrumbs">
+</ngx-breadcrumbs>
+<nb-card>
+  <nb-card-header>
+    <h3>Dodavanje motora</h3>
+  </nb-card-header>
+  <nb-card-body>
+    <form class="col-sm-6 col-12 px-0">
+      <div class="form-group">
+        <label for="manufacturer">Naziv</label><br>
+        <input fullWidth id="name" type="text" nbInput>
+      </div>
+      
+      <div class="form-group">
+        <label for="manufacturer">Proizvođač</label><br>
+        <input fullWidth id="manufacturer" type="text" nbInput>
+      </div>
+      <div class="form-group">
+        <label for="horsepower">Konjska snaga</label><br>
+        <input fullWidth id="horsepower" type="number" placeholder="Unesite broj" nbInput>
+      </div>
+      <div class="form-group">
+        <label for="fuel">Vrsta goriva</label><br>
+        <nb-select fullWidth id="fuel" placeholder="- odaberite -">
+        </nb-select>
+      </div>
+      <div class="form-group">
+          <button class="mr-2" nbButton size="medium" status="success">Dodaj</button>
+          <button nbButton siz="medium" status="danger">Odustani</button>
+      </div>
+      
+    </form>
+  </nb-card-body>
+</nb-card>

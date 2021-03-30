@@ -2,75 +2,69 @@
 </ngx-breadcrumbs>
 <nb-card>
   <nb-card-header>
-    <h3>Popis automobila</h3>
+    <h3>Popis vlasnika</h3>
   </nb-card-header>
   <nb-card-body>
     <h6>Filteri</h6>
     <div class="filters row no-gutters">
       <div class="form-group col-2 mr-2">
-        <input nbInput fullWidth type="text" placeholder="Proizvođač">
+        <input nbInput fullWidth type="text" placeholder="Ime i prezime">
       </div>
       <div class="form-group col-2 mr-2">
-        <input nbInput fullWidth type="text" placeholder="Model">
+        <input nbInput fullWidth type="text" placeholder="Adresa stanovanja">
       </div>
       <div class="form-group col-2 mr-2">
-        <input fullWidth id="dob" nbInput placeholder="Datum proizvodnje" [nbDatepicker]="employmentDatePicker">
-        <nb-datepicker #employmentDatePicker></nb-datepicker>
+        <input fullWidth id="dob" nbInput placeholder="Datum rođenja" [nbDatepicker]="dobDatePicker">
+        <nb-datepicker #dobDatePicker></nb-datepicker>
       </div>
-      <div class="form-group col-2 mr-2">
-        <input nbInput fullWidth type="text" placeholder="Vlasnik">
+      
+      <div class="form-group col-2">
+        <input nbInput fullWidth type="text" placeholder="OIB">
       </div>
     </div>
     <ngx-datatable class="material" [columnMode]="'force'" [headerHeight]="'auto'" [footerHeight]="50" [rowHeight]="'auto'" [rows]="data">
-      <ngx-datatable-column [width]="50" name="owner" prop="owner" [sortable]="false">
-        <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
-        </ng-template>
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <div class="d-flex justify-content-center">
-            <img class="image-car-table" [src]="row.image" />
-          </div>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="manufacturer" prop="manudacturer" [sortable]="true">
+      <ngx-datatable-column name="fullname" prop="fullname" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
           <span (click)="sort()">
-            Proizvodač
+            Ime i prezime
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.manufacturer}}
+          {{row.fullname}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="model" prop="model" [sortable]="true">
+      <ngx-datatable-column name="address" prop="address" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
           <span (click)="sort()">
-            Model
+            Adresa stanovanja
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.modelName}}
+          {{row.address}}
         </ng-template>
+        
       </ngx-datatable-column>
-      <ngx-datatable-column name="manufactureDate" prop="manufactureDate" [sortable]="true">
+      <ngx-datatable-column name="dob" prop="dob" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
           <span (click)="sort()">
-            Datum proizvodnje
+            Datum rođenja
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.manufactureDate}}
+          {{row.dob}}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="owner" prop="owner" [sortable]="true">
+      <ngx-datatable-column name="oib" prop="oib" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
           <span (click)="sort()">
-            Vlasnik
+            OIB
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.owner}}
+          {{row.oib}}
         </ng-template>
       </ngx-datatable-column>
+
       <ngx-datatable-column name="actions" prop="owner" [sortable]="false">
         <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
           <span>
@@ -78,14 +72,14 @@
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <div class="d-flex">
-                <button class="mr-2" nbButton status="warning" size="medium">
-                    <nb-icon icon="edit"></nb-icon>
-                </button>
-                <button nbButton status="danger" size="medium">
-                    <nb-icon icon="trash"></nb-icon>
-                </button>
-            </div>
+          <div class="d-flex">
+            <button class="mr-2" nbButton status="warning" size="medium">
+              <nb-icon icon="edit"></nb-icon>
+            </button>
+            <button nbButton status="danger" size="medium">
+              <nb-icon icon="trash"></nb-icon>
+            </button>
+          </div>
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
