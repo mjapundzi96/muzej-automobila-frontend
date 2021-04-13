@@ -41,6 +41,7 @@ import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { RouterModule } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -58,6 +59,7 @@ const NB_MODULES = [
   NbCardModule
 ];
 const COMPONENTS = [
+  HomeComponent,
   HeaderComponent,
   FooterComponent,
   BreadcrumbsComponent,

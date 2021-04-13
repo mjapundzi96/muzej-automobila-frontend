@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 
 import { LayoutService } from '../../../@core/utils';
-import { map, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -37,19 +37,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profil' }, { title: 'Odjava' } ];
+  userMenu = [{ title: 'Profil' }, { title: 'Odjava', key:"logout" }];
+  username = localStorage.getItem("username");
 
   constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private themeService: NbThemeService,
-              private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
+    private menuService: NbMenuService,
+    private themeService: NbThemeService,
+    private layoutService: LayoutService,
+    private breakpointService: NbMediaBreakpointsService,
+    private nbMenuService: NbMenuService
+  ) {
   }
 
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
 
-    
+
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
       .pipe(
@@ -64,6 +67,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => this.currentTheme = themeName);
+
+    this.nbMenuService.onItemClick().subscribe(res => {
+      if (res.tag === "user-menu"){
+        localStorage.clear()
+        window.location.href = "/pages/home"
+      }
+      
+      
+    })
   }
 
   ngOnDestroy() {

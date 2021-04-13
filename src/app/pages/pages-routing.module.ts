@@ -3,12 +3,18 @@ import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import { HomeComponent } from '../@theme/components/home/home.component';
+
 
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
   children: [
+    {
+      path: 'home',
+      component: HomeComponent
+    },
     {
       path: 'miscellaneous',
       loadChildren: () => import('./miscellaneous/miscellaneous.module')
@@ -41,7 +47,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'miscellaneous/home',
+      redirectTo: 'home',
       pathMatch: 'full',
     },
     {

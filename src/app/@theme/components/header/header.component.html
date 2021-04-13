@@ -12,13 +12,18 @@
 </div>
 
 <div class="header-container">
-  <nb-actions size="small">
+  <nb-actions size="small" *ngIf="username">
     <nb-action class="user-action" *nbIsGranted="['view', 'user']" >
       <nb-user [nbContextMenu]="userMenu"
                [onlyPicture]="userPictureOnly"
-               [name]="'Administrator'"
-               [picture]="'https://i.pinimg.com/564x/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.jpg'">
+               [name]="username"
+               [picture]="'https://i.pinimg.com/564x/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.jpg'"
+               nbContextMenuTag="user-menu"
+               >
       </nb-user>
     </nb-action>
   </nb-actions>
+  <div *ngIf="!username">
+    <button routerLink="/auth/login" nbButton [size]="'medium'">Prijava</button>
+  </div>
 </div>
