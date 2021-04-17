@@ -6,8 +6,16 @@ export interface User {
     email: string
     firstName: string
     id: number
-    lastName: "admin"
+    lastName: string
     oib: string | null
     position: string | null
-    userRole: string
+    image: string;
+}
+
+export interface UserBody extends User{
+    password:string;
+}
+
+export interface UserResponse extends User{
+    userRole:string;
 }

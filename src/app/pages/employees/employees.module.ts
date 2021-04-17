@@ -10,8 +10,7 @@ import { NbButtonModule, NbCardModule, NbDatepickerModule, NbIconModule, NbInput
 import { NgxDatatableModule } from "@swimlane/ngx-datatable"
 import { EmployeesComponent } from './employees.component';
 import { FilePickerModule } from  'ngx-awesome-uploader';
-
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [EmployeesComponent, EmployeeListComponent, EmployeeEditComponent, EmployeeAddComponent],
@@ -26,7 +25,9 @@ import { FilePickerModule } from  'ngx-awesome-uploader';
     FilePickerModule,
     NbSelectModule,
     NgxDatatableModule,
-    NbIconModule
+    NbIconModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class EmployeesModule { }

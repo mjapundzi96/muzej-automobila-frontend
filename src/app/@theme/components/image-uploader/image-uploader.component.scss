@@ -1,0 +1,35 @@
+.image-uploader-container {
+
+  position: relative;
+
+  .dropzoneTemplate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    .image-message {
+      max-width: 60%;
+      text-align: center;
+    }
+
+    .image-container {
+      position: relative;
+
+
+    }
+
+    
+  }
+  .btn-remove-image {
+    border: none;
+    outline: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-19%, -50%);
+  }
+}

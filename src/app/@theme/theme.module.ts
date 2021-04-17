@@ -42,6 +42,8 @@ import { DARK_THEME } from './styles/theme.dark';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
+import { ImageUploaderComponent } from './components/image-uploader/image-uploader.component';
+import { FilePickerModule } from 'ngx-awesome-uploader';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -56,13 +58,15 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
-  NbCardModule
+  NbCardModule,
+  FilePickerModule
 ];
 const COMPONENTS = [
   HomeComponent,
   HeaderComponent,
   FooterComponent,
   BreadcrumbsComponent,
+  ImageUploaderComponent,
   SearchInputComponent,
   TinyMCEComponent,
   OneColumnLayoutComponent,
@@ -80,7 +84,7 @@ const PIPES = [
 @NgModule({
   imports: [CommonModule,RouterModule, ...NB_MODULES],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
-  declarations: [...COMPONENTS, ...PIPES, BreadcrumbsComponent],
+  declarations: [...COMPONENTS, ...PIPES, BreadcrumbsComponent, ImageUploaderComponent],
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders<ThemeModule> {

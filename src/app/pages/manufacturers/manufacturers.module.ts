@@ -9,7 +9,7 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { NbButtonModule, NbCardModule, NbDatepickerModule, NbIconModule, NbInputModule, NbSelectModule } from '@nebular/theme';
 import { NgxDatatableModule } from "@swimlane/ngx-datatable"
 import { ManufacturersComponent } from './manufacturers.component';
-import { FilePickerModule } from  'ngx-awesome-uploader';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -23,10 +23,11 @@ import { FilePickerModule } from  'ngx-awesome-uploader';
     NbInputModule,
     NbButtonModule,
     NbDatepickerModule.forRoot(),
-    FilePickerModule,
     NbSelectModule,
     NgxDatatableModule,
-    NbIconModule
+    NbIconModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class ManufacturersModule { }

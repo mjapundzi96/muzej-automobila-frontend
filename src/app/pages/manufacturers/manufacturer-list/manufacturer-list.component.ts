@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadcrumbItem } from '../../../@theme/components/breadcrumbs/breadcrumbs.component';
 import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
+import { ApiService } from '../../../services/api.service';
 
 @Component({
   selector: 'ngx-manufacturer-list',
@@ -46,11 +47,16 @@ export class ManufacturerListComponent implements OnInit {
     }
   ]
   source: LocalDataSource;
-  constructor() {
+  constructor(
+    private apiService: ApiService
+  ) {
     this.source = new LocalDataSource(this.data);
   }
 
   ngOnInit(): void {
+    this.apiService.fetchManufacturers().subscribe(res=>{
+      console.log(res)
+    })
   }
 
 }

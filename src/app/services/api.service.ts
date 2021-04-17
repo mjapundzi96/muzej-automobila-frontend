@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 import { BASE_URL } from '../../environments/environment';
-import { LoginResponse } from '../@core/models/loginResponse.model';
-import { LoginBody } from '../@core/models/loginBody.model';
-import { ApiResponse } from '../@core/models/apiResponse.model';
+import { ApiResult } from '../@core/models/api.model';
+import { NbToastrService } from '@nebular/theme';
+import { LoginBody, LoginResponse } from '../@core/models/login.model';
+import { ManufacturerBody, ManufacturerResponse } from '../@core/models/manufacturer.model';
+import { UserBody } from '../@core/models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,23 +19,58 @@ export class ApiService {
 
   constructor(
     private http: HttpClient,
-
+    private toastrService: NbToastrService
   ) {
 
   }
 
-
+  // login
 
   login(body: LoginBody) {
-    return this.http.post(BASE_URL + 'auth/login/', body)
+    return this.http.post(`${BASE_URL}auth/login/`, body)
       .pipe(
-        map((response: ApiResponse<LoginResponse>) => {
-          localStorage.setItem("username", response.response.user.firstName)
-          localStorage.setItem("role", response.response.user.userRole)
+        map((_: ApiResult<LoginResponse>) => {
+          if (_.error) {
+            this.toastrService.danger('Invalid credentials', 'Error')
+            throw _.error.message
+          }
+          localStorage.setItem("username", _.response.user.firstName)
+          localStorage.setItem("role", _.response.user.userRole)
+          return _;
+        })
+      )
+  }
+
+  // employee 
+
+  createEmployee(body: any) {
+    return this.http.post(`${BASE_URL}user/save/`, body)
+      .pipe(
+        map((response: ApiResult<boolean>) => {
           return response;
-        }),
-        catchError((err: Response) => {
-          throw err.json();
-        }));
+        })
+      )
+  }
+
+  // manufacturer
+
+  createManufacturer(body: ManufacturerBody) {
+    return this.http.post(`${BASE_URL}maker/save/`, body)
+      .pipe(
+        map((response: ApiResult<boolean>) => {
+          return response;
+        })
+      )
+  }
+
+  fetchManufacturers(){
+    return this.http.put(`${BASE_URL}maker/filterAll/`,{
+      command:{}
+    })
+      .pipe(
+        map((response: ApiResult<Array<ManufacturerResponse>>) => {
+          return response;
+        })
+      )
   }
 }

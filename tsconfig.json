@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "normalTypeScriptOptions": "here",
     "importHelpers": true,
     "module": "es2020",
     "outDir": "./dist/out-tsc",
