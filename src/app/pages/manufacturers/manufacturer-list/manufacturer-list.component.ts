@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadcrumbItem } from '../../../@theme/components/breadcrumbs/breadcrumbs.component';
-import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 import { ApiService } from '../../../services/api.service';
+import { Manufacturer, ManufacturersAllBody } from '../../../@core/models/manufacturer.model';
+import { ListPage } from '../../../@core/models/api.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { PageInfo, SortInfo } from '../../../@core/models/datatable.model';
+import { ModalConfirmComponent } from '../../../@theme/components/modal-confirm/modal-confirm.component';
+import { SimpleModalService } from "ngx-simple-modal"
+import { NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-manufacturer-list',
@@ -9,6 +15,8 @@ import { ApiService } from '../../../services/api.service';
   styleUrls: ['./manufacturer-list.component.scss']
 })
 export class ManufacturerListComponent implements OnInit {
+  filterForm: FormGroup;
+
   breadcrumbs: Array<BreadcrumbItem> = [
     {
       title: 'Home',
@@ -23,40 +31,95 @@ export class ManufacturerListComponent implements OnInit {
 
     }
   ]
-  data = [
-    {
-      name:"Mercedes",
-      country:"Njemačka",
-      address:"Stuttgart",
-      establishment_date:"28.6.1926.",
-      logo: "https://logos-world.net/wp-content/uploads/2020/05/Mercedes-Benz-Logo.png"
+  rows = []
+  filterBody: ManufacturersAllBody = {
+    command: {
+      name: '',
+      address: '',
+      dateOfCreation: '',
+      country: ''
     },
-    {
-      name:"Audi",
-      country:"Njemačka",
-      address:"Ingolstadt",
-      establishment_date:"10.3.1969.",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Audi-Logo_2016.svg/400px-Audi-Logo_2016.svg.png"
-    },
-    {
-      name:"Alfa Romeo",
-      country:"Italija",
-      address:"Turin, Piedmont",
-      establishment_date:"24.6.1910.",
-      logo: "https://upload.wikimedia.org/wikipedia/en/2/2a/Alfa_Romeo_logo.png"
+    pagination: {
+      currentPage: 1,
+      size: 10,
+      sortProperty: 'name',
+      sortDirection: 'asc',
     }
-  ]
-  source: LocalDataSource;
+  }
+  page: ListPage = {
+    ...this.filterBody.pagination,
+    totalElements: 0,
+    totalPages: 0,
+  }
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private fb: FormBuilder,
+    private simpleModalService: SimpleModalService,
+    private toastrService:NbToastrService
   ) {
-    this.source = new LocalDataSource(this.data);
+
   }
 
   ngOnInit(): void {
-    this.apiService.fetchManufacturers().subscribe(res=>{
-      console.log(res)
+    this.filterForm = this.fb.group({
+      ...this.filterBody.command
+    })
+    this.filterForm.valueChanges.subscribe(() => {
+      this.filterBody.command = this.filterForm.value;
+    })
+    this.onDisplayPage()
+  }
+
+  setPage(pageInfo: PageInfo) {
+    this.filterBody.pagination.currentPage = pageInfo.offset + 1;
+    this.onDisplayPage();
+  }
+
+  onSubmitFilters() {
+    this.onDisplayPage()
+  }
+
+  onClearFilters() {
+    this.filterForm.reset()
+    this.onDisplayPage()
+  }
+
+  onSortRows(sortInfo: SortInfo) {
+    const { dir, prop } = sortInfo.sorts[0]
+    this.filterBody.pagination = {
+      currentPage: 1,
+      size: 10,
+      sortProperty: prop,
+      sortDirection: dir
+    }
+    this.page = {
+      ...this.page,
+      ...this.filterBody.pagination
+    }
+    this.onDisplayPage();
+  }
+
+  onDisplayPage() {
+    this.apiService.fetchAllManufacturers(this.filterBody).subscribe(res => {
+      const { response, page } = res;
+      this.rows = response
+      this.page = page
     })
   }
 
+  onDelete(manufacturer: Manufacturer) {
+    const {name,id} = manufacturer;
+    this.simpleModalService.addModal(ModalConfirmComponent,{
+      title:'Brisanje proizvođača',
+      message:`Jeste li sigurni da želite obrisati proizvođača ${name}?`,
+      button:'Potvrdi'
+    }).subscribe((isConfirmed)=>{
+      if (isConfirmed){
+        this.apiService.deleteManufacturer(id).subscribe(()=>{
+          this.toastrService.success('Proizvođač uspješno obrisan!','Success')
+          this.onDisplayPage()
+        })
+      }
+    })
+  }
 }

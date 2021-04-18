@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadcrumbItem } from '../../../@theme/components/breadcrumbs/breadcrumbs.component';
-import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { User, UsersAllBody } from '../../../@core/models/user.model';
+import { ListPage } from '../../../@core/models/api.model';
+import { ApiService } from '../../../services/api.service';
+import { SimpleModalService } from "ngx-simple-modal"
+import { NbToastrService } from '@nebular/theme';
+import { ModalConfirmComponent } from '../../../@theme/components/modal-confirm/modal-confirm.component';
+import { PageInfo, SortInfo } from '../../../@core/models/datatable.model';
 
 @Component({
   selector: 'ngx-employee-list',
@@ -8,6 +15,7 @@ import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
   styleUrls: ['./employee-list.component.scss']
 })
 export class EmployeeListComponent implements OnInit {
+  filterForm: FormGroup;
   breadcrumbs: Array<BreadcrumbItem> = [
     {
       title: 'Home',
@@ -19,41 +27,101 @@ export class EmployeeListComponent implements OnInit {
     },
     {
       title: 'Popis zaposlenika',
-
     }
   ]
-  data = [
-    {
-      fullname: "Josip Ivić",
-      oib: "7549434590",
-      address: "Ilica 88, 10000 Zagreb",
-      dob: "1.8.1974.",
-      employment_date: "22.12.2014",
-      photo: "https://pinotmasters.sk/wp-content/uploads/2014/10/speaker-3.jpg"
+  rows = []
+  filterBody: UsersAllBody = {
+    command: {
+      firstName: '',
+      lastName: '',
+      oib: '',
+      address: '',
+      dateOfBirth: '',
+      dateOfEmployment: '',
+      email: '',
     },
-    {
-      fullname: "Ana Martić",
-      oib: "967897790",
-      address: "Gajeva 5, 10000 Zagreb",
-      dob: "22.8.1976.",
-      employment_date: "22.7.2012",
-      photo: "https://www.southernhealth.ca/assets/Join-Our-Team/_resampled/ResizedImageWzMyNyw0OTFd/employee-benefits.jpg"
-    },
-    {
-      fullname: "Andrej Horvat",
-      oib: "987995599",
-      address: "Savska 129, 10000 Zagreb",
-      dob: "11.10.1974.",
-      employment_date: "4.8.2007",
-      photo: "https://thumbs.dreamstime.com/b/headshot-portrait-smiling-millennial-male-employee-talk-video-call-web-conference-coworking-office-profile-picture-174975508.jpg"
-    },
-  ]
-  source: LocalDataSource;
-  constructor() {
-    this.source = new LocalDataSource(this.data);
+    pagination: {
+      currentPage: 1,
+      size: 10,
+      sortProperty: 'lastName',
+      sortDirection: 'asc',
+    }
   }
+  page: ListPage = {
+    ...this.filterBody.pagination,
+    totalElements: 0,
+    totalPages: 0,
+  }
+  constructor(
+    private apiService: ApiService,
+    private fb: FormBuilder,
+    private simpleModalService: SimpleModalService,
+    private toastrService: NbToastrService) {
+  }
+
 
   ngOnInit(): void {
+    this.filterForm = this.fb.group({
+      ...this.filterBody.command
+    })
+    this.filterForm.valueChanges.subscribe(() => {
+      this.filterBody.command = this.filterForm.value;
+    })
+    this.onDisplayPage()
   }
 
+  setPage(pageInfo: PageInfo) {
+    this.filterBody.pagination.currentPage = pageInfo.offset + 1;
+    this.onDisplayPage();
+  }
+
+  onSubmitFilters() {
+    this.onDisplayPage()
+  }
+
+  onClearFilters() {
+    this.filterForm.reset()
+    this.onDisplayPage()
+  }
+
+  onSortRows(sortInfo: SortInfo) {
+    const { dir, prop } = sortInfo.sorts[0]
+    this.filterBody.pagination = {
+      currentPage: 1,
+      size: 10,
+      sortProperty: prop,
+      sortDirection: dir
+    }
+    this.page = {
+      ...this.page,
+      ...this.filterBody.pagination
+    }
+    this.onDisplayPage();
+  }
+
+  onDisplayPage() {
+    this.apiService.fetchAllEmployees(this.filterBody).subscribe(res => {
+      const { response, page } = res;
+      this.rows = response
+      this.page = page
+    })
+  }
+
+  onDelete(employee: User) {
+    const { firstName, lastName, id } = employee;
+    this.simpleModalService.addModal(ModalConfirmComponent, {
+      title: 'Brisanje zaposlenika',
+      message: `Jeste li sigurni da želite obrisati zaposlenika ${firstName} ${lastName}?`,
+      button: 'Potvrdi'
+    }).subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.apiService.deleteEmployee(id).subscribe(() => {
+          this.toastrService.success('Zaposlenik uspješno obrisan!', 'Success')
+          this.onDisplayPage()
+        })
+      }
+    })
+  }
 }
+
+

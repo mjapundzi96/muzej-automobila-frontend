@@ -1,4 +1,5 @@
-import { User, UserResponse } from "./user.model";
+import { ApiSingleResult } from "./api.model";
+import { UserResponse } from "./user.model";
 
 
 export interface LoginBody {
@@ -11,3 +12,5 @@ export interface LoginResponse {
     refreshToken: string;
     user: UserResponse
 }
+
+export type LoginResult = ApiSingleResult<LoginResponse>

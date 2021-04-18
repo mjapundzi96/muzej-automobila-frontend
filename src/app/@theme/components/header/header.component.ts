@@ -25,19 +25,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       value: 'dark',
       name: 'Dark',
     },
-    {
-      value: 'cosmic',
-      name: 'Cosmic',
-    },
-    {
-      value: 'corporate',
-      name: 'Corporate',
-    },
   ];
 
   currentTheme = 'default';
 
-  userMenu = [{ title: 'Profil' }, { title: 'Odjava', key:"logout" }];
+  userMenu = [{ title: 'Odjava', key:"logout" }];
   username = localStorage.getItem("username");
 
   constructor(private sidebarService: NbSidebarService,

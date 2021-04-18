@@ -1,6 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { toBase64 } from '../../../@core/utils/helpers';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NbToastrService } from '@nebular/theme';
+import { combineLatest, forkJoin } from 'rxjs';
 import { BreadcrumbItem } from '../../../@theme/components/breadcrumbs/breadcrumbs.component'
 import { ApiService } from '../../../services/api.service';
 
@@ -10,20 +13,9 @@ import { ApiService } from '../../../services/api.service';
   styleUrls: ['./employee-add.component.scss']
 })
 export class EmployeeAddComponent implements OnInit {
-  breadcrumbs: Array<BreadcrumbItem> = [
-    {
-      title: 'Home',
-      path: '/pages/home',
-    },
-    {
-      title: 'Zaposlenici',
-      path: '/pages/employees'
-    },
-    {
-      title: 'Dodaj zaposlenika',
-
-    }
-  ]
+  @Input() edit: boolean;
+  id: number;
+  breadcrumbs: Array<BreadcrumbItem>;
 
   form: FormGroup;
   firstName: AbstractControl;
@@ -37,25 +29,33 @@ export class EmployeeAddComponent implements OnInit {
   active: AbstractControl;
   userRole: AbstractControl;
   image: AbstractControl;
+  password: AbstractControl;
+  confirmPassword: AbstractControl;
+
   constructor(
     private fb: FormBuilder,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private toastrService: NbToastrService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
     this.form = this.fb.group({
-      id: [0, Validators.required],
+      id: [0],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       address: ['', Validators.required],
-      dateOfBirth: ['2012-12-05', Validators.required],
-      dateOfEmployment: ['2012-12-01', Validators.required],
-      oib: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      dateOfEmployment: ['', Validators.required],
+      oib: ['', Validators.required, Validators.maxLength(10)],
       email: ['', Validators.required],
-      position: ['string', Validators.required],
-      active: [true, Validators.required],
-      userRole: [{ id: 1, name: "string", users: [] }, Validators.required],
-      image: ["", Validators.required]
+      position: [''],
+      active: [true],
+      userRole: [{ id: 2, name: "EMPLOYEE", users: [] }],
+      image: [""],
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required]
     })
 
     this.firstName = this.form.controls['firstName'];
@@ -65,16 +65,62 @@ export class EmployeeAddComponent implements OnInit {
     this.dateOfEmployment = this.form.controls['dateOfEmployment'];
     this.oib = this.form.controls['oib'];
     this.email = this.form.controls['email'];
-    /*     this.position = this.form.controls['position'];
-        this.active = this.form.controls['active'];
-        this.userRole = this.form.controls['userRole']; */
+    this.password = this.form.controls['password'];
+    this.confirmPassword = this.form.controls['confirmPassword']
+    this.position = this.form.controls['position']
     this.image = this.form.controls['image'];
+    this.userRole = this.form.controls['userRole']
 
+    if (this.edit) {
+      this.route.params.subscribe(params => {
+        const id = parseInt(params.id);
+        if (id) {
+          this.id = id
+          this.apiService.fetchSingleEmployee(this.id).subscribe(res => {
+            this.form.patchValue(res.response)
+            this.userRole.setValue({ id: 2, name: "EMPLOYEE", users: [] })
+          })
+        }
+      })
+
+    }
+
+    this.password.valueChanges.subscribe(() => {
+      this.validatePassword()
+    })
+
+    this.confirmPassword.valueChanges.subscribe(() => {
+      this.validatePassword()
+    })
+
+    this.breadcrumbs = [
+      {
+        title: 'Home',
+        path: '/pages/home',
+      },
+      {
+        title: 'Zaposlenici',
+        path: '/pages/employees'
+      },
+      {
+        title: this.edit ? 'Uređivanje zaposlenika' : 'Dodavanje zaposlenika',
+      }
+    ]
+  }
+
+  validatePassword() {
+    if (this.password.value !== this.confirmPassword.value) {
+      this.confirmPassword.setErrors({ 'notMatch': true })
+    }
+    else this.confirmPassword.setErrors(null)
   }
 
   onSubmit() {
-    this.apiService.createEmployee(this.form.getRawValue()).subscribe(res => {
-      console.log(res)
+    const data = this.form.getRawValue();
+    delete data["confirmPassword"];
+    this.apiService.createEmployee(data).subscribe(res => {
+      this.toastrService.success("Korisnik uspješno kreiran", "Success")
+      this.router.navigateByUrl("/pages/employees/list")
     })
   }
 
@@ -85,5 +131,6 @@ export class EmployeeAddComponent implements OnInit {
   onPhotoRemove() {
     this.image.setValue("");
   }
+
 
 }

@@ -44,6 +44,8 @@ import { RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { ImageUploaderComponent } from './components/image-uploader/image-uploader.component';
 import { FilePickerModule } from 'ngx-awesome-uploader';
+import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
+import { SimpleModalModule } from 'ngx-simple-modal'
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -59,7 +61,8 @@ const NB_MODULES = [
   NbIconModule,
   NbEvaIconsModule,
   NbCardModule,
-  FilePickerModule
+  FilePickerModule,
+  SimpleModalModule
 ];
 const COMPONENTS = [
   HomeComponent,
@@ -84,7 +87,7 @@ const PIPES = [
 @NgModule({
   imports: [CommonModule,RouterModule, ...NB_MODULES],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
-  declarations: [...COMPONENTS, ...PIPES, BreadcrumbsComponent, ImageUploaderComponent],
+  declarations: [...COMPONENTS, ...PIPES, BreadcrumbsComponent, ImageUploaderComponent, ModalConfirmComponent],
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders<ThemeModule> {

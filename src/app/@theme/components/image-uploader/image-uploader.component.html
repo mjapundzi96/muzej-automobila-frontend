@@ -3,13 +3,15 @@
     <i class="fa fa-times"></i>
   </button>
   <ngx-awesome-uploader [fileMaxCount]="1" [showPreviewContainer]="false" (change)="onImageChange($event)">
+    
     <div class="dropzoneTemplate">
+     
       <div class="image-message" *ngIf="!image; else imageContainer">
         Povuci fotografiju ovdje ili klikni za odabir
       </div>
       <ng-template #imageContainer>
         <div class="image-container">
-
+          
           <img [src]="image" />
         </div>
 

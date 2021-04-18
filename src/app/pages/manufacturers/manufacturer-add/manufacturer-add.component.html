@@ -2,44 +2,38 @@
 </ngx-breadcrumbs>
 <nb-card>
   <nb-card-header>
-    <h3>Dodavanje proizvođača</h3>
+    <h3>{{edit ? 'Uređivanje proizvođača' : 'Dodavanje proizvođača'}}</h3>
   </nb-card-header>
   <nb-card-body>
     <form [formGroup]="form" class="col-sm-6 col-12 px-0">
       <div class="form-group">
+        <label>Logo proizvođača</label><br>
+        <app-image-uploader [image]="image.value" (onChange)="onPhotoChange($event)" (onRemove)="onPhotoRemove()"></app-image-uploader>
+      </div>
+      <div class="form-group">
         <label for="name">Naziv</label><br>
-        <input fullWidth formControlName="name" [status]="name.valid ? 'success' : 'danger'" id="name" type="text" nbInput>
+        <input fullWidth formControlName="name" [status]="name.touched ? (name.valid ? 'success' : 'danger') : 'basic'" id="name" type="text" nbInput>
         <small class="text-danger" *ngIf="name.touched && name.invalid">Neispravan naziv</small>
       </div>
       <div class="form-group">
         <label for="country">Zemlja podrijetla</label><br>
-        <input fullWidth formControlName="country" [status]="country.valid ? 'success' : 'danger'" id="country" type="text" nbInput>
+        <input fullWidth formControlName="country" [status]="country.touched ? (country.valid ? 'success' : 'danger') : 'basic'" id="country" type="text" nbInput>
         <small class="text-danger" *ngIf="country.touched && country.invalid">Neispravna zemlja</small>
       </div>
       <div class="form-group">
         <label for="address">Adresa sjedišta</label><br>
-        <input fullWidth formControlName="address" [status]="address.valid ? 'success' : 'danger'" id="address" type="text" nbInput>
+        <input fullWidth formControlName="address" [status]="address.touched ? (address.valid ? 'success' : 'danger') : 'basic'" id="address" type="text" nbInput>
         <small class="text-danger" *ngIf="address.touched && address.invalid">Neispravna adresa</small>
       </div>
       <div class="form-group">
         <label for="dateOfCreation">Datum osnutka</label><br>
-        <input fullWidth formControlName="dateOfCreation" [status]="dateOfCreation.valid ? 'success' : 'danger'" id="dateOfCreation" type="text" [nbDatepicker]="dateOfCreationPicker" nbInput>
-        <small class="text-danger" *ngIf="dateOfCreation.touched && dateOfCreation.invalid">Neispravan datum</small>
+        <input fullWidth formControlName="dateOfCreation" id="dateOfCreation" type="text" [nbDatepicker]="dateOfCreationPicker" nbInput>
+        <!-- <small class="text-danger" *ngIf="dateOfCreation.touched && dateOfCreation.invalid">Neispravan datum</small> -->
         <nb-datepicker format="dd.MM.yyyy." #dateOfCreationPicker></nb-datepicker>
       </div>
       <div class="form-group">
-        <label>Logo proizvođača</label><br>
-       <!--  <ngx-awesome-uploader>
-          <div class="dropzoneTemplate">
-            <div>
-              Povuci fotografiju ovdje ili klikni za odabir
-            </div>
-          </div>
-        </ngx-awesome-uploader> -->
-      </div>
-      <div class="form-group">
-        <button class="mr-2" nbButton size="medium" status="success" [disabled]="form.invalid" (click)="onSubmit()">Dodaj</button>
-        <button routerLink="/pages/manufacturers/list" nbButton size="medium" status="danger">Odustani</button>
+        <button class="mr-2" nbButton size="medium" status="success" [disabled]="form.invalid" (click)="onSubmit()">{{edit ? 'Spremi' : 'Dodaj'}}</button>
+        <button routerLink="/pages/manufacturers/list" nbButton size="medium" status="danger" >Odustani</button>
       </div>
     </form>
   </nb-card-body>

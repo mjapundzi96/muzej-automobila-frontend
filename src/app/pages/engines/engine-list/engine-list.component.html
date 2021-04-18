@@ -6,23 +6,14 @@
   </nb-card-header>
   <nb-card-body>
     <h6>Filteri</h6>
-    <div class="filters row no-gutters">
+    <form class="row align-items-end no-gutters filters" [formGroup]="filterForm">
       <div class="form-group col-2 mr-2">
-        <input nbInput fullWidth type="text" placeholder="Naziv">
+        <label>Naziv</label>
+        <input fieldSize="small" nbInput fullWidth formControlName="name" type="text" >
       </div>
-      <div class="form-group col-2 mr-2">
-        <input nbInput fullWidth type="text" placeholder="Proizvođač">
-      </div>
-      <div class="form-group col-2 mr-2">
-        <nb-select fullWidth  placeholder="Vrsta goriva">
-           
-        </nb-select>
-      </div>
-      <div class="form-group col-2 mr-2">
-        <input nbInput fullWidth type="number" placeholder="Konjska snaga (max)">
-      </div>
-    </div>
-    <ngx-datatable class="material" [columnMode]="'force'" [headerHeight]="'auto'" [footerHeight]="50" [rowHeight]="'auto'" [rows]="data">
+      
+    </form>
+    <ngx-datatable class="material" [columnMode]="'force'" [headerHeight]="'auto'" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [externalSorting]="true" [limit]="page.size" [count]="page.totalElements" [offset]="page.currentPage - 1" [rows]="rows" (page)="setPage($event)" (sort)="onSortRows($event)">
       <ngx-datatable-column name="name" prop="name" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
           <span (click)="sort()">
@@ -40,7 +31,7 @@
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.manufacturer}}
+          {{row.maker.name}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="fuel" prop="fuel" [sortable]="true">
@@ -50,7 +41,7 @@
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.fuel}}
+          {{row.type}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="horsepower" prop="horsepower" [sortable]="true">
@@ -60,7 +51,17 @@
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.horsepower}} hp
+          {{row.power}} hp
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="torque" prop="torque" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+          <span (click)="sort()">
+            Obrtni moment
+          </span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.torque}} (Nm/rpm)
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="actions" prop="owner" [sortable]="false">
@@ -71,7 +72,7 @@
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
             <div class="d-flex">
-                <button class="mr-2" nbButton status="warning" size="medium">
+                <button routerLink="/pages/engines/{{row.id}}/edit" class="mr-2" nbButton status="warning" size="medium">
                     <nb-icon icon="edit"></nb-icon>
                 </button>
                 <button nbButton status="danger" size="medium">

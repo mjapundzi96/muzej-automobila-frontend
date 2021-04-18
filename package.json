@@ -19,7 +19,7 @@
     "docs:serve": "compodoc -p src/tsconfig.app.json -d docs -s",
     "prepush": "npm run lint:ci",
     "release:changelog": "npm run conventional-changelog -- -p angular -i CHANGELOG.md -s",
-    "postinstall": "ngcc --properties es2015 es5 browser module main --first-only --create-ivy-entry-points --tsconfig \"./src/tsconfig.app.json\""
+    "postinstall": "ngcc"
   },
   "dependencies": {
     "@akveo/ng2-completer": "^9.0.1",
@@ -35,6 +35,7 @@
     "@angular/router": "^11.0.9",
     "@asymmetrik/ngx-leaflet": "3.0.1",
     "@nebular/auth": "7.0.0",
+    "@nebular/date-fns": "^7.0.0",
     "@nebular/eva-icons": "7.0.0",
     "@nebular/security": "7.0.0",
     "@nebular/theme": "7.0.0",
@@ -56,6 +57,7 @@
     "ng2-smart-table": "^1.6.0",
     "ngx-awesome-uploader": "^10.0.4",
     "ngx-echarts": "^4.2.2",
+    "ngx-simple-modal": "^1.4.17",
     "node-sass": "^4.12.0",
     "normalize.css": "6.0.0",
     "pace-js": "1.0.2",

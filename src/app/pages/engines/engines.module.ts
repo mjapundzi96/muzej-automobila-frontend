@@ -6,10 +6,11 @@ import { EngineListComponent } from './engine-list/engine-list.component';
 import { EngineEditComponent } from './engine-edit/engine-edit.component';
 import { EngineAddComponent } from './engine-add/engine-add.component';
 import { ThemeModule } from '../../@theme/theme.module';
-import { NbButtonModule, NbCardModule, NbDatepickerModule, NbIconModule, NbInputModule, NbSelectModule } from '@nebular/theme';
+import { NbAutocompleteModule, NbButtonModule, NbCardModule, NbDatepickerModule, NbIconModule, NbInputModule, NbSelectModule } from '@nebular/theme';
 import { NgxDatatableModule } from "@swimlane/ngx-datatable"
 import { EnginesComponent } from './engines.component';
 import { FilePickerModule } from  'ngx-awesome-uploader';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -26,7 +27,10 @@ import { FilePickerModule } from  'ngx-awesome-uploader';
     FilePickerModule,
     NbSelectModule,
     NgxDatatableModule,
-    NbIconModule
+    NbIconModule,
+    NbAutocompleteModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class EnginesModule { }

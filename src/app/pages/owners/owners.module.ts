@@ -10,6 +10,7 @@ import { NbButtonModule, NbCardModule, NbDatepickerModule, NbIconModule, NbInput
 import { NgxDatatableModule } from "@swimlane/ngx-datatable"
 import { OwnersComponent } from './owners.component';
 import { FilePickerModule } from  'ngx-awesome-uploader';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -26,7 +27,9 @@ import { FilePickerModule } from  'ngx-awesome-uploader';
     FilePickerModule,
     NbSelectModule,
     NgxDatatableModule,
-    NbIconModule
+    NbIconModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class OwnersModule { }

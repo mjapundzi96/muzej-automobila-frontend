@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadcrumbItem } from '../../../@theme/components/breadcrumbs/breadcrumbs.component';
 import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
+import { Car, CarsAllBody } from '../../../@core/models/car.model';
+import { ListPage } from '../../../@core/models/api.model';
+import { ApiService } from '../../../services/api.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NbToastrService } from '@nebular/theme';
+import { SimpleModalService } from "ngx-simple-modal"
+import { ModalConfirmComponent } from '../../../@theme/components/modal-confirm/modal-confirm.component';
+import { PageInfo, SortInfo } from '../../../@core/models/datatable.model';
 
 @Component({
   selector: 'ngx-car-list',
@@ -8,6 +16,8 @@ import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
   styleUrls: ['./car-list.component.scss']
 })
 export class CarListComponent implements OnInit {
+  filterForm: FormGroup;
+
   breadcrumbs: Array<BreadcrumbItem> = [
     {
       title: 'Home',
@@ -22,38 +32,95 @@ export class CarListComponent implements OnInit {
 
     }
   ]
-  data = [
-    {
-      modelName: "A8",
-      color: "Plava",
-      manufactureDate: "1.1.2007.",
-      manufacturer: "Audi",
-      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/2018_Audi_A8_50_TDi_Quattro_Automatic_3.0.jpg/2560px-2018_Audi_A8_50_TDi_Quattro_Automatic_3.0.jpg",
-      owner: "Motka Tvrdić"
+
+  rows = []
+  filterBody: CarsAllBody = {
+    command: {
+      name:"",
+      manufactureDate:"",
+      color:""
     },
-    {
-      modelName: "S klasa",
-      color: "Metalik",
-      manufactureDate: "1.1.2010.",
-      manufacturer: "Mercedes",
-      image: "https://automania.hr/wp-content/uploads/2017/04/1__clanak-prva-37-730x411.jpg",
-      owner: "Jurica Spindl"
-    },
-    {
-      modelName: "Golf 1",
-      color: "Oker žuta",
-      manufactureDate: "1.1.1976.",
-      manufacturer: "Volkswagen",
-      image: "https://www.index.hr/oglasi/UserDocsImages/oglas/_2021/3/22/2827325/received137215724967927-220320210751224059.jpeg?preset=oglas-slike-view-detaljnoGalOpen2",
-      owner: "Živojin mirić"
+    pagination: {
+      currentPage: 1,
+      size: 10,
+      sortProperty: 'name',
+      sortDirection: 'asc',
     }
-  ]
-  source: LocalDataSource;
-  constructor() {
-    this.source = new LocalDataSource(this.data);
+  }
+  page: ListPage = {
+    ...this.filterBody.pagination,
+    totalElements: 0,
+    totalPages: 0,
+  }
+  constructor(
+    private apiService: ApiService,
+    private fb: FormBuilder,
+    private simpleModalService: SimpleModalService,
+    private toastrService: NbToastrService
+  ) {
+
   }
 
   ngOnInit(): void {
+    this.filterForm = this.fb.group({
+      ...this.filterBody.command
+    })
+    this.filterForm.valueChanges.subscribe(() => {
+      this.filterBody.command = this.filterForm.value;
+    })
+    this.onDisplayPage()
   }
 
+  setPage(pageInfo: PageInfo) {
+    this.filterBody.pagination.currentPage = pageInfo.offset + 1;
+    this.onDisplayPage();
+  }
+
+  onSubmitFilters() {
+    this.onDisplayPage()
+  }
+
+  onClearFilters() {
+    this.filterForm.reset()
+    this.onDisplayPage()
+  }
+
+  onSortRows(sortInfo: SortInfo) {
+    const { dir, prop } = sortInfo.sorts[0]
+    this.filterBody.pagination = {
+      currentPage: 1,
+      size: 10,
+      sortProperty: prop,
+      sortDirection: dir
+    }
+    this.page = {
+      ...this.page,
+      ...this.filterBody.pagination
+    }
+    this.onDisplayPage();
+  }
+
+  onDisplayPage() {
+    this.apiService.fetchAllEngines(this.filterBody).subscribe(res => {
+      const { response, page } = res;
+      this.rows = response
+      this.page = page
+    })
+  }
+
+  onDelete(car: Car) {
+    const { name, id, maker } = car;
+    this.simpleModalService.addModal(ModalConfirmComponent, {
+      title: 'Brisanje automobile',
+      message: `Jeste li sigurni da želite obrisati automobil ${maker.name} ${name}?`,
+      button: 'Potvrdi'
+    }).subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.apiService.deleteEngine(id).subscribe(() => {
+          this.toastrService.success('Automobil uspješno obrisan!', 'Success')
+          this.onDisplayPage()
+        })
+      }
+    })
+  }
 }

@@ -20,6 +20,7 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 import { CoreModule } from './@core/core.module';
+import { NbDateFnsDateModule } from '@nebular/date-fns'
 
 @NgModule({
   declarations: [AppComponent],

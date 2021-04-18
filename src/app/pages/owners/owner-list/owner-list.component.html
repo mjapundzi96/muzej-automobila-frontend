@@ -6,31 +6,66 @@
   </nb-card-header>
   <nb-card-body>
     <h6>Filteri</h6>
-    <div class="filters row no-gutters">
+    <form class="row align-items-end no-gutters filters" [formGroup]="filterForm">
       <div class="form-group col-2 mr-2">
-        <input nbInput fullWidth type="text" placeholder="Ime i prezime">
-      </div>
-      <div class="form-group col-2 mr-2">
-        <input nbInput fullWidth type="text" placeholder="Adresa stanovanja">
+        <label>Prezime</label>
+        <input fieldSize="small" nbInput fullWidth formControlName="lastName" type="text" >
       </div>
       <div class="form-group col-2 mr-2">
-        <input fullWidth id="dob" nbInput placeholder="Datum rođenja" [nbDatepicker]="dobDatePicker">
-        <nb-datepicker #dobDatePicker></nb-datepicker>
+        <label>Ime</label>
+        <input fieldSize="small" nbInput fullWidth formControlName="firstName" type="text" >
       </div>
-      
-      <div class="form-group col-2">
-        <input nbInput fullWidth type="text" placeholder="OIB">
+      <div class="form-group col-2 mr-2">
+        <label>Datum rođenja</label>
+        <input fieldSize="small" fullWidth id="dob" formControlName="dateOfBirth" nbInput [nbDatepicker]="dobPicker" placeholder="Odaberi datum">
+        <nb-datepicker dateFormat="dd.MM.yyyy" #dobPicker></nb-datepicker>
       </div>
-    </div>
-    <ngx-datatable class="material" [columnMode]="'force'" [headerHeight]="'auto'" [footerHeight]="50" [rowHeight]="'auto'" [rows]="data">
-      <ngx-datatable-column name="fullname" prop="fullname" [sortable]="true">
+      <div class="form-group col-2 mr-2">
+        <label>Adresa</label>
+        <input fieldSize="small" nbInput fullWidth formControlName="address" type="text" >
+      </div>
+      <div class="form-group col-2 mr-2">
+        <label>OIB</label>
+        <input fieldSize="small" nbInput fullWidth formControlName="oib" type="text" >
+      </div>
+      <div class="form-group mr-2">
+        <button nbButton status="success" (click)="onSubmitFilters()" size="small">Pretraga</button>
+      </div>
+      <div class="form-group">
+        <button nbButton status="danger" (click)="onClearFilters()" size="small">
+          <nb-icon icon="close"></nb-icon>
+        </button>
+      </div>
+    </form>
+    <ngx-datatable class="material" [columnMode]="'force'" [headerHeight]="'auto'" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [externalSorting]="true" [limit]="page.size" [count]="page.totalElements" [offset]="page.currentPage - 1" [rows]="rows" (page)="setPage($event)" (sort)="onSortRows($event)">
+      <ngx-datatable-column name="lastName" prop="lastName" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
           <span (click)="sort()">
-            Ime i prezime
+            Prezime
           </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.fullname}}
+          {{row.lastName}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="firstName" prop="firstName" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+          <span (click)="sort()">
+            Ime
+          </span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.firstName}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="dateOfBirth" prop="dateOfBirth" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+          <span (click)="sort()">
+            Datum rođenja
+          </span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.dateOfBirth}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="address" prop="address" [sortable]="true">
@@ -42,18 +77,8 @@
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{row.address}}
         </ng-template>
-        
       </ngx-datatable-column>
-      <ngx-datatable-column name="dob" prop="dob" [sortable]="true">
-        <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
-          <span (click)="sort()">
-            Datum rođenja
-          </span>
-        </ng-template>
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          {{row.dob}}
-        </ng-template>
-      </ngx-datatable-column>
+
       <ngx-datatable-column name="oib" prop="oib" [sortable]="true">
         <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
           <span (click)="sort()">
@@ -64,7 +89,6 @@
           {{row.oib}}
         </ng-template>
       </ngx-datatable-column>
-
       <ngx-datatable-column name="actions" prop="owner" [sortable]="false">
         <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
           <span>
@@ -73,10 +97,10 @@
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
           <div class="d-flex">
-            <button class="mr-2" nbButton status="warning" size="medium">
+            <button class="mr-2" nbButton status="warning" size="medium" routerLink="/pages/owners/{{row.id}}/edit">
               <nb-icon icon="edit"></nb-icon>
             </button>
-            <button nbButton status="danger" size="medium">
+            <button nbButton status="danger" size="medium" (click)="onDelete(row)">
               <nb-icon icon="trash"></nb-icon>
             </button>
           </div>

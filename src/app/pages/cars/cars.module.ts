@@ -6,10 +6,11 @@ import { CarListComponent } from './car-list/car-list.component';
 import { CarEditComponent } from './car-edit/car-edit.component';
 import { CarAddComponent } from './car-add/car-add.component';
 import { ThemeModule } from '../../@theme/theme.module';
-import { NbButtonModule, NbCardModule, NbDatepickerModule, NbIconModule, NbInputModule, NbSelectModule } from '@nebular/theme';
+import { NbAutocompleteModule, NbButtonModule, NbCardModule, NbDatepickerModule, NbIconModule, NbInputModule, NbSelectModule } from '@nebular/theme';
 import { NgxDatatableModule } from "@swimlane/ngx-datatable"
 import { CarsComponent } from './cars.component';
 import { FilePickerModule } from  'ngx-awesome-uploader';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -26,7 +27,10 @@ import { FilePickerModule } from  'ngx-awesome-uploader';
     FilePickerModule,
     NbSelectModule,
     NgxDatatableModule,
-    NbIconModule
+    NbIconModule,
+    NbAutocompleteModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class CarsModule { }
