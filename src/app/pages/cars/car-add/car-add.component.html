@@ -1,0 +1,59 @@
+<ngx-breadcrumbs [items]="breadcrumbs">
+</ngx-breadcrumbs>
+<nb-card>
+  <nb-card-header>
+    <h3>Dodavanje automobila</h3>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="form" class="col-sm-6 col-12 px-0">
+      <div class="form-group">
+        <label for="manufacturer">Proizvođač</label><br>
+        <input #makerInput nbInput (input)="onChangeManufacturerSearch($event)" [status]="maker.valid ? 'success' : 'danger'" fullWidth type="text" placeholder="Pretraga proizvođača" [nbAutocomplete]="maker" />
+        <nb-autocomplete #maker>
+          <nb-option (click)="onSelectManufacturer(option)" *ngFor="let option of manufacturerFilteredOptions" [value]="option.name">
+            {{ option.name }}
+          </nb-option>
+        </nb-autocomplete>
+      </div>
+      <div class="form-group">
+        <label for="name">Naziv modela</label><br>
+        <input fullWidth id="name" type="text" formControlName="name" nbInput>
+      </div>
+      <div class="form-group">
+        <label for="color">Boja</label><br>
+        <input fullWidth id="color" type="text" formControlName="color" nbInput>
+      </div>
+      <div class="form-group">
+        <label for="motor">Motor</label><br>
+        <input #motorInput nbInput (input)="onChangeEngineSearch($event)" fullWidth type="text" placeholder="Pretraga motora" [nbAutocomplete]="motor" />
+        <nb-autocomplete #motor>
+          <nb-option (click)="onSelectEngine(option)" *ngFor="let option of engineFilteredOptions" [value]="option.name">
+            {{ option.name }}
+          </nb-option>
+        </nb-autocomplete>
+      </div>
+      <div class="form-group">
+        <label for="owner">Vlasnik</label><br>
+        <input #ownerInput nbInput (input)="onChangeOwnerSearch($event)" fullWidth type="text" placeholder="Pretraga vlasnika" [nbAutocomplete]="owner" />
+        <nb-autocomplete #owner>
+          <nb-option (click)="onSelectOwner(option)" *ngFor="let option of ownerFilteredOptions" [value]="option.lastName + ' ' + option.firstName">
+            {{ option.lastName + ' ' + option.firstName  }}
+          </nb-option>
+        </nb-autocomplete>
+      </div>
+      <div class="form-group">
+        <label for="production_date">Datum proizvodnje</label><br>
+        <input fullWidth id="production_date" nbInput placeholder="Odaberi datum" [nbDatepicker]="dateTimePicker">
+        <nb-datepicker #dateTimePicker></nb-datepicker>
+      </div>
+      <div class="form-group">
+        <label>Fotografija automobila</label><br>
+        <app-image-uploader [image]="image.value" (onChange)="onPhotoChange($event)" (onRemove)="onPhotoRemove()"></app-image-uploader>
+      </div>
+      <div class="form-group">
+          <button class="mr-2" nbButton size="medium" status="success">Dodaj</button>
+          <button nbButton siz="medium" status="danger">Odustani</button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

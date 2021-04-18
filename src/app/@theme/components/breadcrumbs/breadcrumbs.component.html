@@ -1,0 +1,11 @@
+<nb-card>
+    <nb-card-body>
+        <div class="breadcrumbs-content">
+            <span *ngFor="let item of items; let last = last">
+                <a [routerLink]="item.path" *ngIf="item.path">{{item.title}}</a>  
+                <span *ngIf="!item.path">{{item.title}}</span>  
+                <span class="slash" *ngIf="!last">/</span>
+            </span>
+        </div>
+    </nb-card-body>
+</nb-card>

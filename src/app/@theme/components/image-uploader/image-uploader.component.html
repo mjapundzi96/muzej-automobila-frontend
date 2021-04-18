@@ -1,0 +1,21 @@
+<div class="image-uploader-container">
+  <button *ngIf="image" (click)="onImageRemove($event)" class="btn-remove-image">
+    <i class="fa fa-times"></i>
+  </button>
+  <ngx-awesome-uploader [fileMaxCount]="1" [showPreviewContainer]="false" (change)="onImageChange($event)">
+    
+    <div class="dropzoneTemplate">
+     
+      <div class="image-message" *ngIf="!image; else imageContainer">
+        Povuci fotografiju ovdje ili klikni za odabir
+      </div>
+      <ng-template #imageContainer>
+        <div class="image-container">
+          
+          <img [src]="image" />
+        </div>
+
+      </ng-template>
+    </div>
+  </ngx-awesome-uploader>
+</div>

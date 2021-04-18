@@ -20,5 +20,9 @@
     "plugins": [
       { "name": "tslint-language-service"}
     ]
+  },
+  "typedocOptions": {
+    "entryPoints": ["src/index.ts"],
+    "out": "docs"
   }
 }

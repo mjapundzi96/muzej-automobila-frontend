@@ -12,6 +12,7 @@ import {
   NbSelectModule,
   NbIconModule,
   NbThemeModule,
+  NbCardModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -38,6 +39,13 @@ import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+import { RouterModule } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+import { ImageUploaderComponent } from './components/image-uploader/image-uploader.component';
+import { FilePickerModule } from 'ngx-awesome-uploader';
+import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
+import { SimpleModalModule } from 'ngx-simple-modal'
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -52,10 +60,16 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
+  NbCardModule,
+  FilePickerModule,
+  SimpleModalModule
 ];
 const COMPONENTS = [
+  HomeComponent,
   HeaderComponent,
   FooterComponent,
+  BreadcrumbsComponent,
+  ImageUploaderComponent,
   SearchInputComponent,
   TinyMCEComponent,
   OneColumnLayoutComponent,
@@ -71,9 +85,9 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, ...NB_MODULES],
+  imports: [CommonModule,RouterModule, ...NB_MODULES],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
-  declarations: [...COMPONENTS, ...PIPES],
+  declarations: [...COMPONENTS, ...PIPES, BreadcrumbsComponent, ImageUploaderComponent, ModalConfirmComponent],
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders<ThemeModule> {

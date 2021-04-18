@@ -1,0 +1,69 @@
+<ngx-breadcrumbs [items]="breadcrumbs">
+</ngx-breadcrumbs>
+<nb-card>
+  <nb-card-header>
+    <h3>{{edit ? 'Uređivanje zaposlenika' :  'Dodavanje zaposlenika'}}</h3>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="form" class="col-sm-6 col-12 px-0" autocomplete="off">
+      <div class="form-group">
+        <label>Fotografija</label><br>
+        <app-image-uploader [image]="image.value" (onChange)="onPhotoChange($event)" (onRemove)="onPhotoRemove()"></app-image-uploader>
+      </div>
+      <div class="form-group">
+        <label for="firstname">Ime</label><br>
+        <input fullWidth id="firstname" type="text" [status]="firstName.touched ? (firstName.valid ? 'success' : 'danger') : 'basic'" formControlName="firstName" nbInput>
+        <small *ngIf="firstName.touched && firstName.invalid" class="text-danger">Ime je neispravno</small>
+      </div>
+      <div class="form-group">
+        <label for="lastname">Prezime</label><br>
+        <input fullWidth  id="lastname" type="text" [status]="lastName.touched ? (lastName.valid ? 'success' : 'danger') : 'basic'" formControlName="lastName" nbInput>
+        <small *ngIf="lastName.touched && lastName.invalid" class="text-danger">Prezime je neispravno</small>
+      </div>
+      <div class="form-group">
+        <label for="oib">OIB</label><br>
+        <input fullWidth id="oib" type="text" [status]="oib.touched ? (oib.valid ? 'success' : 'danger') : 'basic'" formControlName="oib" nbInput>
+        <small *ngIf="oib.touched && oib.invalid" class="text-danger">OIB je neispravan</small>
+      </div>
+      <!-- <div class="form-group">
+        <label for="position">Pozicija</label><br>
+        <input fullWidth id="position" type="text" [status]="position.touched ? (position.valid ? 'success' : 'danger') : 'basic'" formControlName="position" nbInput>
+        <small *ngIf="position.touched && position.invalid" class="text-danger">Pozicija je neispravna</small>
+      </div> -->
+      <div class="form-group">
+        <label for="email">Email</label><br>
+        <input fullWidth id="email" type="email" [status]="email.touched ? (email.valid ? 'success' : 'danger') : 'basic'" formControlName="email" nbInput>
+        <small *ngIf="email.touched && email.invalid" class="text-danger">Email je neispravan</small>
+      </div>
+      <div class="form-group">
+        <label for="password">Lozinka</label><br>
+        <input fullWidth id="password" type="password" [status]="password.touched ? (password.valid ? 'success' : 'danger') : 'basic'" formControlName="password" nbInput>
+        <small *ngIf="password.touched && password.invalid" class="text-danger">Lozinka je neispravna</small>
+      </div>
+      <div class="form-group">
+        <label for="password">Potvrda lozinke</label><br>
+        <input fullWidth id="confirmPassword" type="password" [status]="confirmPassword.touched ? (confirmPassword.valid ? 'success' : 'danger') : 'basic'" formControlName="confirmPassword" nbInput>
+        <small *ngIf="confirmPassword.touched && confirmPassword.invalid" class="text-danger">Lozinke se ne podudaraju</small>
+      </div>
+      <div class="form-group">
+        <label for="dob">Datum rođenja</label><br>
+        <input fullWidth id="dob" nbInput placeholder="Odaberi datum"  formControlName="dateOfBirth" [nbDatepicker]="dobPicker">
+        <nb-datepicker format="dd.MM.yyyy" #dobPicker></nb-datepicker>
+      </div>
+      <div class="form-group">
+        <label for="address">Adresa stanovanja</label><br>
+        <input fullWidth id="address" type="text" [status]="address.touched ? (address.valid ? 'success' : 'danger') : 'basic'"  formControlName="address" nbInput>
+        <small *ngIf="address.touched && address.invalid" class="text-danger">Adresa je neispravna</small>
+      </div>
+      <div class="form-group">
+        <label for="employment_date">Datum zaposlenja</label><br>
+        <input fullWidth id="employment_date" nbInput placeholder="Odaberi datum" formControlName="dateOfEmployment" [nbDatepicker]="doePicker">
+        <nb-datepicker format="dd.MM.yyyy" #doePicker></nb-datepicker>
+      </div>
+      <div class="form-group">
+        <button class="mr-2" nbButton size="medium" status="success" [disabled]="form.invalid" (click)="onSubmit()">{{edit ? 'Spremi' : 'Dodaj'}}</button>
+        <button nbButton routerLink="/pages/employees/list" size="medium" status="danger">Odustani</button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,37 @@
+<ngx-breadcrumbs [items]="breadcrumbs">
+</ngx-breadcrumbs>
+<nb-card>
+  <nb-card-header>
+    <h3>{{edit ? 'Uređivanje vlasnika' :  'Dodavanje vlasnika'}}</h3>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="form" class="col-sm-6 col-12 px-0">
+      <div class="form-group">
+        <label for="firstname">Ime</label><br>
+        <input fullWidth id="firstname" formControlName="firstName" type="text" nbInput>
+      </div>
+      <div class="form-group">
+        <label for="lastname">Prezime</label><br>
+        <input fullWidth id="lastname" formControlName="lastName" type="text" nbInput>
+      </div>
+      <div class="form-group">
+        <label for="oib">OIB</label><br>
+        <input fullWidth id="oib" formControlName="oib" type="text" nbInput>
+      </div>
+      
+      <div class="form-group">
+        <label for="dob">Datum rođenja</label><br>
+          <input fullWidth id="dob" nbInput formControlName="dateOfBirth" placeholder="Odaberi datum" [nbDatepicker]="dateTimePicker">
+          <nb-datepicker #dateTimePicker></nb-datepicker>
+      </div>
+      <div class="form-group">
+        <label for="address">Adresa stanovanja</label><br>
+        <input fullWidth id="address" formControlName="address" type="text" nbInput>
+      </div>
+      <div class="form-group">
+        <button class="mr-2" nbButton size="medium" status="success" [disabled]="form.invalid" (click)="onSubmit()">{{edit ? 'Spremi' : 'Dodaj'}}</button>
+        <button nbButton routerLink="/pages/owners/list" size="medium" status="danger">Odustani</button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

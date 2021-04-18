@@ -1,0 +1,13 @@
+<div class="modal-container">
+    <nb-card>
+        <nb-card-header>{{title}}</nb-card-header>
+        <nb-card-body>{{message}}</nb-card-body>
+        <nb-card-footer>
+            <div class="d-flex justify-content-end">
+                <button class="mr-2" nbButton size="medium" status="success" (click)="confirm()">Potvrdi</button>
+                <button nbButton size="medium" status="danger" (click)="close()">Odustani</button>
+            </div>
+
+        </nb-card-footer>
+    </nb-card>
+</div>

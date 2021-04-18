@@ -1,0 +1,44 @@
+<ngx-breadcrumbs [items]="breadcrumbs">
+</ngx-breadcrumbs>
+<nb-card>
+  <nb-card-header>
+    <h3>{{edit ? 'Uređivanje motora' : 'Dodavanje motora'}}</h3>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="form" class="col-sm-6 col-12 px-0">
+      <div class="form-group">
+        <label for="manufacturer">Naziv</label><br>
+        <input fullWidth id="name" formControlName="name" type="text" nbInput>
+      </div>
+
+      <div class="form-group">
+        <label for="manufacturer">Proizvođač</label><br>
+        <input #autoInput nbInput (input)="onChangeManufacturerSearch($event)" fullWidth type="text" placeholder="Pretraga proizvođača" [nbAutocomplete]="auto" />
+        <nb-autocomplete #auto>
+          <nb-option (click)="onSelectManufacturer(option)" *ngFor="let option of manufacturerFilteredOptions" [value]="option.name">
+            {{ option.name }}
+          </nb-option>
+        </nb-autocomplete>
+      </div>
+      <div class="form-group">
+        <label for="power">Konjska snaga (hp)</label><br>
+        <input fullWidth id="power" formControlName="power" type="number" placeholder="Unesite broj" nbInput>
+      </div>
+      <div class="form-group">
+        <label for="torque">Obrtni moment (Nm/rpm)</label><br>
+        <input fullWidth id="torque" formControlName="torque" type="number" placeholder="Unesite broj" nbInput>
+      </div>
+      <div class="form-group">
+        <label for="fuel">Vrsta goriva</label><br>
+        <nb-select formControlName="type" fullWidth id="fuel" placeholder="- odaberite -">
+          <nb-option *ngFor="let option of typeOptions" [value]="option[0]">{{option[1]}}</nb-option>
+        </nb-select>
+      </div>
+      <div class="form-group">
+        <button class="mr-2" (click)="onSubmit()"  nbButton size="medium" status="success">{{edit ? 'Spremi' : 'Dodaj'}}</button>
+        <button routerLink="pages/engines/list" nbButton siz="medium" status="danger">Odustani</button>
+      </div>
+
+    </form>
+  </nb-card-body>
+</nb-card>

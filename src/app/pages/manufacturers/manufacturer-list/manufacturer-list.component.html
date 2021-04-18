@@ -1,0 +1,105 @@
+<ngx-breadcrumbs [items]="breadcrumbs">
+</ngx-breadcrumbs>
+<nb-card>
+  <nb-card-header>
+    <h3>Popis proizvođača</h3>
+  </nb-card-header>
+  <nb-card-body>
+    <h6>Filteri</h6>
+    <form class="row align-items-end no-gutters filters" [formGroup]="filterForm">
+      <div class="form-group col-2 mr-2">
+        <label>Naziv</label>
+        <input fieldSize="small" nbInput fullWidth formControlName="name" type="text" >
+      </div>
+      <div class="form-group col-2 mr-2">
+        <label>Zemlja podrijetla</label>
+        <input fieldSize="small" nbInput fullWidth formControlName="country" type="text" >
+      </div>
+      <div class="form-group col-2 mr-2">
+        <label>Sjedište</label>
+        <input fieldSize="small" nbInput fullWidth formControlName="address" type="text">
+      </div>
+      <div class="form-group col-2 mr-2">
+        <label>Datum osnutka</label>
+        <input fieldSize="small" fullWidth id="dob" formControlName="dateOfCreation" nbInput [nbDatepicker]="dateOfCreationPicker" placeholder="Odaberi datum">
+        <nb-datepicker dateFormat="dd.MM.yyyy" #dateOfCreationPicker></nb-datepicker>
+      </div>
+      <div class="form-group mr-2">
+        <button nbButton status="success" (click)="onSubmitFilters()" size="small">Pretraga</button>
+      </div>
+      <div class="form-group">
+        <button nbButton status="danger" (click)="onClearFilters()" size="small">
+          <nb-icon icon="close"></nb-icon>
+        </button>
+      </div>
+    </form>
+    <ngx-datatable class="material" [columnMode]="'force'" [headerHeight]="'auto'" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [externalSorting]="true" [limit]="page.size" [count]="page.totalElements" [offset]="page.currentPage - 1" [rows]="rows" (page)="setPage($event)" (sort)="onSortRows($event)">
+      <ngx-datatable-column [width]="50" name="logo" prop="logo" [sortable]="false">
+        <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="d-flex logo-container justify-content-center">
+            <img class="manufacturer-logo" [src]="row.image" />
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="name" prop="name" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+          <span (click)="sort()">
+            Naziv
+          </span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.name}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="country" prop="country" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+          <span (click)="sort()">
+            Zemlja podrijetla
+          </span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.country}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="address" prop="address" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+          <span (click)="sort()">
+            Sjedište
+          </span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.address}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="dateOfCreation" prop="dateOfCreation" [sortable]="true">
+        <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+          <span (click)="sort()">
+            Datum osnutka
+          </span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.dateOfCreation}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="actions" [sortable]="false">
+        <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn">
+          <span>
+            Akcije
+          </span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="d-flex">
+            <button class="mr-2" nbButton status="warning" size="medium" routerLink="/pages/manufacturers/{{row.id}}/edit">
+              <nb-icon icon="edit"></nb-icon>
+            </button>
+            <button nbButton status="danger" size="medium" (click)="onDelete(row)">
+              <nb-icon icon="trash"></nb-icon>
+            </button>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </nb-card-body>
+</nb-card>

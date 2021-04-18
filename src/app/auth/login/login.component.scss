@@ -1,0 +1,19 @@
+nb-auth-block {
+    margin: auto;
+}
+
+h1{
+    text-align: center;
+}
+
+nb-card{
+    height: 100%;
+    .logo-container{
+        display: flex;
+        align-items: center;
+        img{
+            margin-right: 25px;
+        }
+    }
+}
+
