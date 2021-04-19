@@ -48,11 +48,11 @@ export class EmployeeAddComponent implements OnInit {
       address: ['', Validators.required],
       dateOfBirth: ['', Validators.required],
       dateOfEmployment: ['', Validators.required],
-      oib: ['', Validators.required, Validators.maxLength(10)],
+      oib: ['', [Validators.required, Validators.maxLength(10)]],
       email: ['', Validators.required],
       position: [''],
       active: [true],
-      userRole: [{ id: 2, name: "EMPLOYEE", users: [] }],
+      userRole: [{ id: 2, name: "EMPLOYEE" }],
       image: [""],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required]

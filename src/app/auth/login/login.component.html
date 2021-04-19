@@ -4,7 +4,7 @@
     <nb-card>
       <nb-card-header>
         <div class="logo-container">
-          <img width="45px" src="./../../../../assets/chevrolet-impala-icon.png" />
+          <img width="45px" src="./../../../../assets/images/chevrolet-impala-icon.png" />
           <h3>Muzej automobila</h3>
         </div>
       </nb-card-header>
@@ -16,14 +16,14 @@
               <label class="label" translate>Email</label>
               <input formControlName="username" nbInput fullWidth [status]="!username.valid ? 'danger' : 'success'">
               <small class="form-text error" *ngIf="!username.valid && username.touched" translate>
-                {{'login.email_error_message'}}
+                Email je neispravan
               </small>
             </div>
             <div class="form-group">
               <label class="label" translate>Lozinka</label>
               <input type="password" formControlName="password" nbInput fullWidth [status]="!password.valid ? 'danger' : 'success'">
               <small class="form-text error" *ngIf="!password.valid && password.touched" translate>
-                {{'login.password_error_message'}}
+                Lozinka je neispravna
               </small>
               <small class="form-text error mt-3" *ngIf="errorMsg">
                 {{errorMsg}}
@@ -33,11 +33,6 @@
               </button>
             </div>
           </form>
-          <div class="clearfix">
-            <small>
-              <a routerLink="/auth/forgot-password" translate>Zaboravili ste lozinku?</a>
-            </small>
-          </div>
         </nb-auth-block>
       </nb-card-body>
     </nb-card>

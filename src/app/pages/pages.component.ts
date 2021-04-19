@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NbMenuItem } from '@nebular/theme';
+import { TranslateService } from '@ngx-translate/core';
 import { Roles } from '../@core/models/roles.enum';
 
 
@@ -13,100 +14,152 @@ import { Roles } from '../@core/models/roles.enum';
     </ngx-one-column-layout>
   `,
 })
-export class PagesComponent {
+export class PagesComponent implements OnInit {
   role = localStorage.getItem("role");
-  menu: NbMenuItem[] = [
-  
+  menu: Array<NbMenuItem> = [
+
     {
-      title: 'Početna',
+      title: "Home",
       icon: 'home-outline',
-      link:'/pages/home'
-      
+      link: '/pages/home',
+      home: true,
+      data: 'home'
     },
     {
-      title:'O nama',
-      icon:'info-outline',
-      link:'/pages/about'
+      title: 'O nama',
+      icon: 'info-outline',
+      link: '/pages/about',
+      data: 'about'
+
     },
     {
-      title:'Kontakt',
-      icon:'message-square-outline',
-      link:'/pages/about',
-      
+      title: 'Kontakt',
+      icon: 'message-square-outline',
+      link: '/pages/contact',
+      data: 'contact'
     },
     {
-      title:'Automobili',
-      icon:'car-outline',
-      children:[
+      title: 'Automobili',
+      icon: 'car-outline',
+      data: 'cars',
+      children: [
         {
-          title:'Popis automobila',
-          link:'/pages/cars/list'
-        },{
-          title:'Dodavanje automobila',
-          link:'/pages/cars/add',
-          hidden: !([Roles.ADMIN.valueOf(), Roles.EMPLOYEE.valueOf()].includes(this.role))
-        } 
-      ]
+          title: 'Popis automobila',
+          link: '/pages/cars/list',
+          data: 'list'
+        }, {
+          title: 'Dodavanje automobila',
+          link: '/pages/cars/add',
+          hidden: !([Roles.ADMIN.valueOf(), Roles.EMPLOYEE.valueOf()].includes(this.role)),
+          data: 'add'
+        }
+      ],
+
     },
     {
-      title:'Vlasnici',
-      icon:'person',
-      children:[
+      title: 'Vlasnici',
+      icon: 'person',
+      data: 'owners',
+      children: [
         {
-          title:'Popis vlasnika',
-          link:'/pages/owners/list'
+          title: 'Popis vlasnika',
+          link: '/pages/owners/list',
+          data: 'list'
         },
         {
-          title:'Dodavanje vlasnika',
-          link:'/pages/owners/add',
+          title: 'Dodavanje vlasnika',
+          link: '/pages/owners/add',
+          data: 'add',
           hidden: !([Roles.ADMIN.valueOf(), Roles.EMPLOYEE.valueOf()].includes(this.role)),
         }
       ]
     },
     {
-      title:'Proizvodači',
-      icon:'star-outline',
-      children:[
+      title: 'Proizvodači',
+      icon: 'star-outline',
+      data: 'manufacturers',
+      children: [
         {
-          title:'Popis proizvođača',
-          link:'/pages/manufacturers/list'
+          title: 'Popis proizvođača',
+          link: '/pages/manufacturers/list',
+          data: 'add',
         },
         {
-          title:'Dodavanje proizvođača',
-          link:'/pages/manufacturers/add',
-          hidden: !([Roles.ADMIN.valueOf(), Roles.EMPLOYEE.valueOf()].includes(this.role))
+          title: 'Dodavanje proizvođača',
+          link: '/pages/manufacturers/add',
+          hidden: !([Roles.ADMIN.valueOf(), Roles.EMPLOYEE.valueOf()].includes(this.role)),
+          data: 'list'
         }
       ]
     },
     {
-      title:'Motori',
-      icon:'settings',
-      children:[
+      title: 'Motori',
+      icon: 'settings',
+      data: 'engines',
+      children: [
         {
-          title:'Popis motora',
-          link:'/pages/engines/list'
+          title: 'Popis motora',
+          link: '/pages/engines/list',
+          data: 'list'
         },
         {
-          title:'Dodavanje motora',
-          link:'/pages/engines/add',
-          hidden: !([Roles.ADMIN.valueOf(), Roles.EMPLOYEE.valueOf()].includes(this.role))
+          title: 'Dodavanje motora',
+          link: '/pages/engines/add',
+          hidden: !([Roles.ADMIN.valueOf(), Roles.EMPLOYEE.valueOf()].includes(this.role)),
+          data: 'add'
+
         }
       ]
     },
     {
-      title:'Zaposlenici',
-      icon:'people-outline',
+      title: 'Zaposlenici',
+      icon: 'people-outline',
       hidden: !([Roles.ADMIN.valueOf()].includes(this.role)),
-      children:[
+      data: 'employees',
+      children: [
         {
-          title:'Popis zaposlenika',
-          link:'/pages/employees/list'
+          title: 'Popis zaposlenika',
+          link: '/pages/employees/list',
+          data: 'list'
         },
         {
-          title:'Dodavanje zaposlenika',
-          link:'/pages/employees/add'
+          title: 'Dodavanje zaposlenika',
+          link: '/pages/employees/add',
+          data: 'add'
+
         }
       ]
     },
   ];
+
+  constructor(
+    private translateService: TranslateService
+  ) {
+
+  }
+
+  ngOnInit() {
+    this.translateService.onLangChange.subscribe(event => this.translateMenuItems());
+    this.translateMenuItems();
+  }
+
+  translateMenuItems() {
+    this.translateService.get('menu').subscribe(tr => {
+      console.log(tr)
+      this.menu.forEach(item => {
+        if (item.children){
+          item.title = tr[item.data]["main"]
+          item.children.forEach((child)=>{
+            child.title = tr[item.data][child.data]
+          })
+        }
+        else {
+          item.title = tr[item.data]
+        }
+        
+      })
+    })
+
+  }
+
 }

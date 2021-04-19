@@ -17,7 +17,8 @@ import { PageInfo, SortInfo } from '../../../@core/models/datatable.model';
 })
 export class CarListComponent implements OnInit {
   filterForm: FormGroup;
-
+  userRole = localStorage.getItem("role");
+  isEmployee = ["ADMIN","EMPLOYEE"].includes(this.userRole)
   breadcrumbs: Array<BreadcrumbItem> = [
     {
       title: 'Home',
@@ -101,7 +102,7 @@ export class CarListComponent implements OnInit {
   }
 
   onDisplayPage() {
-    this.apiService.fetchAllEngines(this.filterBody).subscribe(res => {
+    this.apiService.fetchAllCars(this.filterBody).subscribe(res => {
       const { response, page } = res;
       this.rows = response
       this.page = page
@@ -111,7 +112,7 @@ export class CarListComponent implements OnInit {
   onDelete(car: Car) {
     const { name, id, maker } = car;
     this.simpleModalService.addModal(ModalConfirmComponent, {
-      title: 'Brisanje automobile',
+      title: 'Brisanje automobila',
       message: `Jeste li sigurni da želite obrisati automobil ${maker.name} ${name}?`,
       button: 'Potvrdi'
     }).subscribe((isConfirmed) => {

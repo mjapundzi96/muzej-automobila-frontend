@@ -11,7 +11,7 @@ export interface Engine {
     name: string;
     power: number;
     torque: number;
-    type: EngineType;
+    type: EngineType | string;
     maker: Manufacturer
 }
 

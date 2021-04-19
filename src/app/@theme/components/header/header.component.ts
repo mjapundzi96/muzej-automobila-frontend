@@ -4,6 +4,7 @@ import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeServ
 import { LayoutService } from '../../../@core/utils';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ngx-header',
@@ -15,7 +16,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: any;
-
+  languages: {
+    hr: "HRV",
+    en: "ENG"
+  }
   themes = [
     {
       value: 'default',
@@ -29,7 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [{ title: 'Odjava', key:"logout" }];
+  userMenu = [{ title: 'Odjava', key: "logout" }];
   username = localStorage.getItem("username");
 
   constructor(private sidebarService: NbSidebarService,
@@ -37,7 +41,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private themeService: NbThemeService,
     private layoutService: LayoutService,
     private breakpointService: NbMediaBreakpointsService,
-    private nbMenuService: NbMenuService
+    private nbMenuService: NbMenuService,
+    public translateService: TranslateService
   ) {
   }
 
@@ -61,12 +66,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(themeName => this.currentTheme = themeName);
 
     this.nbMenuService.onItemClick().subscribe(res => {
-      if (res.tag === "user-menu"){
+      if (res.tag === "user-menu") {
         localStorage.clear()
         window.location.href = "/pages/home"
       }
-      
-      
+
+
     })
   }
 
@@ -89,5 +94,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   navigateHome() {
     this.menuService.navigateHome();
     return false;
+  }
+
+  onLangChange(lang) {
+    this.translateService.use(lang)
   }
 }

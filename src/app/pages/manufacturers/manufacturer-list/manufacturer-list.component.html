@@ -91,10 +91,10 @@
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
           <div class="d-flex">
-            <button class="mr-2" nbButton status="warning" size="medium" routerLink="/pages/manufacturers/{{row.id}}/edit">
+            <button *ngIf="isEmployee" class="mr-2" nbButton status="warning" size="medium" routerLink="/pages/manufacturers/{{row.id}}/edit">
               <nb-icon icon="edit"></nb-icon>
             </button>
-            <button nbButton status="danger" size="medium" (click)="onDelete(row)">
+            <button *ngIf="isEmployee" nbButton status="danger" size="medium" (click)="onDelete(row)">
               <nb-icon icon="trash"></nb-icon>
             </button>
           </div>

@@ -19,9 +19,12 @@ export interface UserBody extends User{
     password:string;
 }
 
-export type UserResponse = User & {
-    userRole:number;
-};
+export type UserResponse = User /* & {
+    userRole:{
+        id: number;
+        name: string;
+    }
+}; */
 
 export type UserSingleResult = ApiSingleResult<UserResponse>
 

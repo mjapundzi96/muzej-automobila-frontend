@@ -9,8 +9,10 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { NbAutocompleteModule, NbButtonModule, NbCardModule, NbDatepickerModule, NbIconModule, NbInputModule, NbSelectModule } from '@nebular/theme';
 import { NgxDatatableModule } from "@swimlane/ngx-datatable"
 import { CarsComponent } from './cars.component';
-import { FilePickerModule } from  'ngx-awesome-uploader';
+import { FilePickerModule } from 'ngx-awesome-uploader';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppTranslationModule } from '../../app.translation.module';
+import { TranslatePipe } from '@ngx-translate/core';
 
 
 
@@ -30,7 +32,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NbIconModule,
     NbAutocompleteModule,
     FormsModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+    AppTranslationModule
+  ],
+  providers: [TranslatePipe]
 })
 export class CarsModule { }

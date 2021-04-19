@@ -1,0 +1,42 @@
+{
+  "app_title": "Muzej automobila",
+  "languages": {
+    "hr": "HRV",
+    "en": "EN"
+  },
+  "menu": {
+    "home": "Početna",
+    "about": "O nama",
+    "contact": "Kontakt",
+    "cars": {
+      "main": "Automobili",
+      "list": "Popis automobila",
+      "add": "Dodavanje automobila",
+      "edit": "Uređivanje automobila"
+    },
+    "owners":{
+        "main":"Vlasnici",
+        "list":"Popis vlasnika",
+        "add":"Dodavanje vlasnika",
+        "edit":"Uređivanje vlasnika"
+    },
+    "engines":{
+        "main":"Motori",
+        "list":"Popis motora",
+        "add":"Dodavanje motora",
+        "edit":"Uređivanje motora"
+    },
+    "manufacturers":{
+        "main":"Proizvođači",
+        "list":"Popis proizvođača",
+        "add":"Dodavanje proizvođača",
+        "edit":"Uređivanje proizvođača"
+    },
+    "employees":{
+        "main":"Zaposlenici",
+        "list":"Popis zaposlenika",
+        "add":"Dodavanje zaposlenika",
+        "edit":"Uređivanje vlasnika"
+    }
+  }
+}

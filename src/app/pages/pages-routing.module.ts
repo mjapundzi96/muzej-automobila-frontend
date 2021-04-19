@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import { HomeComponent } from '../@theme/components/home/home.component';
+import { ContactComponent } from '../@theme/components/contact/contact.component';
+import { AboutUsComponent } from '../@theme/components/about-us/about-us.component';
 
 const role = localStorage.getItem("role")
 
@@ -14,6 +16,14 @@ const routes: Routes = [{
     {
       path: 'home',
       component: HomeComponent
+    },
+    {
+      path: 'contact',
+      component: ContactComponent
+    },
+    {
+      path:'about',
+      component:AboutUsComponent
     },
     {
       path: 'miscellaneous',
@@ -29,7 +39,7 @@ const routes: Routes = [{
       path: 'employees',
       loadChildren: () => import('./employees/employees.module')
         .then(m => m.EmployeesModule),
-    }, 
+    },
     {
       path: 'owners',
       loadChildren: () => import('./owners/owners.module')

@@ -31,7 +31,7 @@
       <div class="form-group">
         <label for="fuel">Vrsta goriva</label><br>
         <nb-select formControlName="type" fullWidth id="fuel" placeholder="- odaberite -">
-          <nb-option *ngFor="let option of typeOptions" [value]="option[0]">{{option[1]}}</nb-option>
+          <nb-option *ngFor="let option of typeOptions" [value]="option.value">{{option.name}}</nb-option>
         </nb-select>
       </div>
       <div class="form-group">

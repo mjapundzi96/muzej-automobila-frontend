@@ -3,28 +3,26 @@
     <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
       <nb-icon icon="menu-2-outline"></nb-icon>
     </a>
-    <img width="45px" src="./../../../../assets/chevrolet-impala-icon.png"/>
-    <a class="logo" href="#" (click)="navigateHome()">Muzej <span>automobila</span></a>
+    <img width="45px" src="./../../../../assets/images/chevrolet-impala-icon.png" />
+    <a class="logo" href="#" (click)="navigateHome()">{{'app_title' | translate}}</a>
   </div>
-  
+
 </div>
 
 <div class="header-container">
+  <nb-select class="mr-2" [selected]="translateService.currentLang" (selectedChange)="onLangChange($event)">
+    <nb-option *ngFor="let lang of translateService.getLangs()" [value]="lang"> {{ lang }}</nb-option>
+  </nb-select>
   <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
     <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
   </nb-select>
   <nb-actions size="small" *ngIf="username">
-    <nb-action class="user-action" *nbIsGranted="['view', 'user']" >
-      <nb-user [nbContextMenu]="userMenu"
-               [onlyPicture]="userPictureOnly"
-               [name]="username"
-               [picture]="'https://i.pinimg.com/564x/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.jpg'"
-               nbContextMenuTag="user-menu"
-               >
+    <nb-action class="user-action" *nbIsGranted="['view', 'user']">
+      <nb-user [nbContextMenu]="userMenu" [onlyPicture]="userPictureOnly" [name]="username" [picture]="'https://i.pinimg.com/564x/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.jpg'" nbContextMenuTag="user-menu">
       </nb-user>
     </nb-action>
   </nb-actions>
   <div *ngIf="!username">
-    <button routerLink="/auth/login" nbButton [size]="'medium'">Prijava</button>
+    <button class="ml-2" routerLink="/auth/login" nbButton [size]="'medium'">Prijava</button>
   </div>
 </div>

@@ -15,6 +15,8 @@ import { NbToastrService } from '@nebular/theme';
   styleUrls: ['./manufacturer-list.component.scss']
 })
 export class ManufacturerListComponent implements OnInit {
+  userRole = localStorage.getItem("role");
+  isEmployee = ["ADMIN","EMPLOYEE"].includes(this.userRole)
   filterForm: FormGroup;
 
   breadcrumbs: Array<BreadcrumbItem> = [

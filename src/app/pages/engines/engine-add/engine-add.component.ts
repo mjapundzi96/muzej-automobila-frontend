@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
+import { engineTypes } from '../../../@core/constants/engineTypes';
 import { EngineType } from '../../../@core/models/engine.model';
 import { Manufacturer } from '../../../@core/models/manufacturer.model';
 import { BreadcrumbItem } from '../../../@theme/components/breadcrumbs/breadcrumbs.component'
@@ -16,7 +17,7 @@ export class EngineAddComponent implements OnInit {
   @Input() edit: boolean;
   id: number;
 
-  typeOptions = Object.entries(EngineType)
+  typeOptions = engineTypes
   manufacturerOptions: Array<Manufacturer> = []
   manufacturerFilteredOptions: Array<Manufacturer> = []
   breadcrumbs: Array<BreadcrumbItem>;

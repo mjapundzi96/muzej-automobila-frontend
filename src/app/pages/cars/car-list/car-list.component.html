@@ -20,6 +20,9 @@
         <input fieldSize="small" fullWidth id="dob" formControlName="manufactureDate" nbInput [nbDatepicker]="dateOfCreationPicker" placeholder="Odaberi datum">
         <nb-datepicker dateFormat="dd.MM.yyyy" #dateOfCreationPicker></nb-datepicker>
       </div>
+      <div class="form-group mr-2">
+        <button nbButton status="success" (click)="onSubmitFilters()" size="small">Pretraga</button>
+      </div>
       <div class="form-group">
         <button nbButton status="danger" (click)="onClearFilters()" size="small">
           <nb-icon icon="close"></nb-icon>
@@ -94,10 +97,10 @@
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
           <div class="d-flex">
-              <button routerLink="/pages/engines/{{row.id}}/edit" class="mr-2" nbButton status="warning" size="medium">
+              <button *ngIf="isEmployee" routerLink="/pages/engines/{{row.id}}/edit" class="mr-2" nbButton status="warning" size="medium">
                   <nb-icon icon="edit"></nb-icon>
               </button>
-              <button nbButton status="danger" size="medium">
+              <button *ngIf="isEmployee" nbButton status="danger" size="medium">
                   <nb-icon icon="trash"></nb-icon>
               </button>
           </div>

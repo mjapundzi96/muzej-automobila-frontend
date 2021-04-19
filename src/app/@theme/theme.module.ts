@@ -45,7 +45,10 @@ import { HomeComponent } from './components/home/home.component';
 import { ImageUploaderComponent } from './components/image-uploader/image-uploader.component';
 import { FilePickerModule } from 'ngx-awesome-uploader';
 import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
-import { SimpleModalModule } from 'ngx-simple-modal'
+import { SimpleModalModule } from 'ngx-simple-modal';
+import { ContactComponent } from './components/contact/contact.component';
+import { AboutUsComponent } from './components/about-us/about-us.component'
+import { TranslateModule, TranslatePipe } from "@ngx-translate/core"
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -62,7 +65,8 @@ const NB_MODULES = [
   NbEvaIconsModule,
   NbCardModule,
   FilePickerModule,
-  SimpleModalModule
+  SimpleModalModule,
+  TranslateModule.forChild()
 ];
 const COMPONENTS = [
   HomeComponent,
@@ -82,12 +86,13 @@ const PIPES = [
   RoundPipe,
   TimingPipe,
   NumberWithCommasPipe,
+
 ];
 
 @NgModule({
-  imports: [CommonModule,RouterModule, ...NB_MODULES],
+  imports: [CommonModule, RouterModule, ...NB_MODULES],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
-  declarations: [...COMPONENTS, ...PIPES, BreadcrumbsComponent, ImageUploaderComponent, ModalConfirmComponent],
+  declarations: [BreadcrumbsComponent, ImageUploaderComponent, ModalConfirmComponent, ContactComponent, AboutUsComponent, ...COMPONENTS, ...PIPES],
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders<ThemeModule> {
@@ -98,7 +103,7 @@ export class ThemeModule {
           {
             name: 'default',
           },
-          [ DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME ],
+          [DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME],
         ).providers,
       ],
     };

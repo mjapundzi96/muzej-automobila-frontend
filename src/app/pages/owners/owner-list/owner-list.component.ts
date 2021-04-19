@@ -17,6 +17,8 @@ import { ModalConfirmComponent } from '../../../@theme/components/modal-confirm/
 })
 export class OwnerListComponent implements OnInit {
   filterForm: FormGroup;
+  userRole = localStorage.getItem("role");
+  isEmployee = ["ADMIN","EMPLOYEE"].includes(this.userRole)
   breadcrumbs: Array<BreadcrumbItem> = [
     {
       title: 'Home',

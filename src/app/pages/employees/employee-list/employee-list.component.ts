@@ -39,6 +39,7 @@ export class EmployeeListComponent implements OnInit {
       dateOfBirth: '',
       dateOfEmployment: '',
       email: '',
+      userRole:"EMPLOYEE"
     },
     pagination: {
       currentPage: 1,

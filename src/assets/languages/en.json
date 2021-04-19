@@ -1,0 +1,42 @@
+{
+  "app_title": "Car museum",
+  "languages": {
+    "hr": "HRV",
+    "en": "EN"
+  },
+  "menu": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "cars": {
+      "main": "Cars",
+      "list": "Car list",
+      "add": "Add new car",
+      "edit": "Edit car"
+    },
+    "owners": {
+      "main": "Owner",
+      "list": "Owner list",
+      "add": "Add new owner",
+      "edit": "Edit owner"
+    },
+    "engines": {
+      "main": "Engines",
+      "list": "Engine list",
+      "add": "Add new engine",
+      "edit": "Edit engine"
+    },
+    "manufacturers": {
+      "main": "Manufacturers",
+      "list": "Manufacturer list",
+      "add": "Add new manufacturer",
+      "edit": "Edit manufacturer"
+    },
+    "employees": {
+      "main": "Employees",
+      "list": "Employee list",
+      "add": "Add new employee",
+      "edit": "Edit employee"
+    }
+  }
+}

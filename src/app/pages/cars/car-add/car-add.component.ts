@@ -173,6 +173,8 @@ export class CarAddComponent implements OnInit {
   }
 
   onSubmit(){
+    const data = this.form.getRawValue();
+    delete data.motor.maker;
     this.apiService.createOrEditCar(this.form.getRawValue()).subscribe(()=>{
       this.toastrService.success('Automobil uspješno kreiran','Success');
       this.router.navigateByUrl("/pages/cars/list")
